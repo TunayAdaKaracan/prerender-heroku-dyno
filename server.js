@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 var prerender = require('./lib');
+const chromiumBinary = require('chromium-binary');
 
-var server = prerender();
+console.log(chromiumBinary.path)
+
+var server = prerender({chromeLocation: chromiumBinary.path, port: parseInt(process.argv[2] || "3000") || 3000});
 
 server.use(prerender.sendPrerenderHeader());
 server.use(prerender.browserForceRestart());
@@ -10,4 +13,4 @@ server.use(prerender.addMetaTags());
 server.use(prerender.removeScriptTags());
 server.use(prerender.httpHeaders());
 
-server.start();
+server.start()
